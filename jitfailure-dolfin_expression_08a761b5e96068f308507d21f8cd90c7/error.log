@@ -1,0 +1,16 @@
+/tmp/tmpe133vlbx/dolfin_expression_08a761b5e96068f308507d21f8cd90c7.cpp: In member function ‘virtual void dolfin::dolfin_expression_08a761b5e96068f308507d21f8cd90c7::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmpe133vlbx/dolfin_expression_08a761b5e96068f308507d21f8cd90c7.cpp:67:29: error: ‘ur’ was not declared in this scope; did you mean ‘uz’?
+   67 |           values[0] = wr-uz-ur*wz;
+      |                             ^~
+      |                             uz
+/tmp/tmpe133vlbx/dolfin_expression_08a761b5e96068f308507d21f8cd90c7.cpp:67:32: error: ‘wz’ was not declared in this scope; did you mean ‘uz’?
+   67 |           values[0] = wr-uz-ur*wz;
+      |                                ^~
+      |                                uz
+/tmp/tmpe133vlbx/dolfin_expression_08a761b5e96068f308507d21f8cd90c7.cpp: In member function ‘virtual std::shared_ptr<dolfin::GenericFunction> dolfin::dolfin_expression_08a761b5e96068f308507d21f8cd90c7::get_generic_function(std::string) const’:
+/tmp/tmpe133vlbx/dolfin_expression_08a761b5e96068f308507d21f8cd90c7.cpp:92:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   92 |           if (name == "uz") return generic_function_uz;          if (name == "wr") return generic_function_wr;
+      |           ^~
+/tmp/tmpe133vlbx/dolfin_expression_08a761b5e96068f308507d21f8cd90c7.cpp:92:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   92 |           if (name == "uz") return generic_function_uz;          if (name == "wr") return generic_function_wr;
+      |                                                                  ^~

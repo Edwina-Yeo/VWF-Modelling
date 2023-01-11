@@ -1,0 +1,18 @@
+# Project exclude paths
+/venv/
+
+
+*.txt
+*.png
+*.eps
+data
+figs
+*.jpg
+*.mat
+*.geo
+*.msh
+*.xml
+*.out
+*.pvd
+*.vtu
+*.gif

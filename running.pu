@@ -1,0 +1,77 @@
+
+
+
+geo_write(l1,l2,h,l,path1)
+
+sub_domains, mesh = write_mesh(l1, l2, h, path1, l,mesh_level)  # write mesh and domains for solving
+# sub_domains, mesh = write_rect_mesh(l,100,100)  # write mesh and domains for solving
+
+ds = ds(subdomain_data=sub_domains)  # assign surface integration measure
+d, x_base, y_base = get_base_dofs(mesh, sub_domains, 0)  # get dofs of base and their z values
+
+for i in range(len(Res)):
+    t0=time()
+    re=Res[i]
+    steps=np.floor(re)
+    if not os.path.exists(path1):
+        os.mkdir(path1)
+    path = path1 + '/Re_' + str(re)+'h-'+str(h)+'l1-'+str(l1)+'l2-'+str(l2)
+    if not os.path.exists(path):
+        os.mkdir(path)
+
+    (max_w, meshsize,ss_1,ss_2,psi,shear_stress_sign,u, w ,ur,uz,wr,wz,shear_stress,sr) =NS(mesh,re,sub_domains)
+
+    write_txt(mesh,u,'usol')
+    write_txt(mesh,w,'wsol')
+
+    V_1 = FunctionSpace(mesh, 'CG',  1)  # continous galerkin space for the velocity field.
+    wss = interpolate(Expression('sqrt(ss_1* ss_1+ss_2 * ss_2)',degree=2,ss_1=ss_1,ss_2=ss_2),V_1)
+    # base_plot(x_base,get_base_val(wss,d),'wss base', path)
+    eig_E= interpolate(Expression('(uz+wr)*(uz+wr)/4-ur*wz',degree=2,uz=uz,wr=wr,wz=wz,ur=ur),V_1)
+    eig_W= interpolate(Expression('(uz-wr)*(uz-wr)/4',degree=2,uz=uz,wr=wr),V_1)
+    rot_rate= interpolate(Expression('uz-wr',degree=2,uz=uz,wr=wr,ur=ur,wz=wz),V_1)
+    total_rate= interpolate(Expression('abs((uz-wr))-sr',degree=2,uz=uz,wr=wr,ur=ur,wz=wz,sr=sr),V_1)
+    # rot_rate= interpolate(Expression('sqrt(1/2*((uz-wr)^2+(uz-wr)^2))',degree=2,uz=uz,wr=wr),V_1)
+
+
+    write_txt(mesh,rot_rate,'rot')
+    write_txt(mesh,total_rate,'tot')
+    write_txt(mesh,sr,'sr')
+
+
+    lam_squared= interpolate(Expression('wr*uz-ur*wz',degree=2,uz=uz,wr=wr,wz=wz,ur=ur),V_1)
+    file_ext = File(path+"/lam_squared.pvd")
+
+    lam_c= interpolate(Expression('-wr*uz+ur*wz',degree=2,uz=uz,wr=wr,wz=wz,ur=ur),V_1)
+    # file_ext = File(path+"/lam_c.pvd")
+    lam_b= interpolate(Expression('-(ur+wz)',degree=2,wz=wz,ur=ur),V_1)
+    # file_ext = File(path+"/lam_c.pvd")
+
+    write_txt(mesh,lam_c,'lam_c')
+    write_txt(mesh,lam_b,'lam_b')
+
+    file_ext << lam_squared
+    file_ext = File(path+"/eig_E.pvd")
+    file_ext << eig_E
+    file_ext = File(path+"/eig_W.pvd")
+    file_ext << eig_W
+
+    np.savetxt(path + '/ss_sign.txt', get_base_val(shear_stress_sign, d), fmt='%1.9f')
+    #
+    np.savetxt(path + '/wss.txt', get_base_val(wss, d), fmt='%1.9f')
+    np.savetxt(path + '/x_base.txt', x_base, fmt='%1.9f')
+    #
+    # #  Create velocity function.
+    (F2, tau_gamma, Re, VV, V,W) = fene_init(mesh, u, w, ur, uz, wr, wz, sub_domains, re, sr)
+
+    Ext=fene_solve(F2,tau_gamma,Re,sub_domains,re,sr,VV,V,W,steps)
+    base_ext=get_base_val(Ext,d)
+    file_ext = File(path+"/ext.pvd")
+    file_ext << Ext
+    np.savetxt(path + '/base_ext.txt', base_ext, fmt='%1.9f')
+
+
+
+
+
+

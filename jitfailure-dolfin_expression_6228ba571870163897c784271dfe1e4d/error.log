@@ -1,0 +1,17 @@
+/tmp/tmpahayume7/dolfin_expression_6228ba571870163897c784271dfe1e4d.cpp: In member function ‘virtual void dolfin::dolfin_expression_6228ba571870163897c784271dfe1e4d::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmpahayume7/dolfin_expression_6228ba571870163897c784271dfe1e4d.cpp:67:40: error: invalid operands of types ‘double’ and ‘double’ to binary ‘operator^’
+   67 |           values[0] = sqrt(1/2*((uz-wr)^2+(uz-wr)^2));
+      |                                 ~~~~~~~^~~~~~~~~~
+      |                                    |     |
+      |                                    |     double
+      |                                    double
+/tmp/tmpahayume7/dolfin_expression_6228ba571870163897c784271dfe1e4d.cpp:67:42: warning: suggest parentheses around arithmetic in operand of ‘^’ [-Wparentheses]
+   67 |           values[0] = sqrt(1/2*((uz-wr)^2+(uz-wr)^2));
+      |                                         ~^~~~~~~~
+/tmp/tmpahayume7/dolfin_expression_6228ba571870163897c784271dfe1e4d.cpp: In member function ‘virtual std::shared_ptr<dolfin::GenericFunction> dolfin::dolfin_expression_6228ba571870163897c784271dfe1e4d::get_generic_function(std::string) const’:
+/tmp/tmpahayume7/dolfin_expression_6228ba571870163897c784271dfe1e4d.cpp:92:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   92 |           if (name == "uz") return generic_function_uz;          if (name == "wr") return generic_function_wr;
+      |           ^~
+/tmp/tmpahayume7/dolfin_expression_6228ba571870163897c784271dfe1e4d.cpp:92:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   92 |           if (name == "uz") return generic_function_uz;          if (name == "wr") return generic_function_wr;
+      |                                                                  ^~

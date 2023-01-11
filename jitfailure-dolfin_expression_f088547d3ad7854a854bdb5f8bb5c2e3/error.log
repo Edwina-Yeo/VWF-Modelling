@@ -1,0 +1,17 @@
+/tmp/tmpjncsw0i1/dolfin_expression_f088547d3ad7854a854bdb5f8bb5c2e3.cpp: In member function ‘virtual void dolfin::dolfin_expression_f088547d3ad7854a854bdb5f8bb5c2e3::eval(Eigen::Ref<Eigen::Matrix<double, -1, 1> >, Eigen::Ref<const Eigen::Matrix<double, -1, 1> >) const’:
+/tmp/tmpjncsw0i1/dolfin_expression_f088547d3ad7854a854bdb5f8bb5c2e3.cpp:73:40: error: invalid operands of types ‘double’ and ‘double’ to binary ‘operator^’
+   73 |           values[0] = sqrt(1/2*((uz-wr)^2+(uz-wr)^2));
+      |                                 ~~~~~~~^~~~~~~~~~
+      |                                    |     |
+      |                                    |     double
+      |                                    double
+/tmp/tmpjncsw0i1/dolfin_expression_f088547d3ad7854a854bdb5f8bb5c2e3.cpp:73:42: warning: suggest parentheses around arithmetic in operand of ‘^’ [-Wparentheses]
+   73 |           values[0] = sqrt(1/2*((uz-wr)^2+(uz-wr)^2));
+      |                                         ~^~~~~~~~
+/tmp/tmpjncsw0i1/dolfin_expression_f088547d3ad7854a854bdb5f8bb5c2e3.cpp: In member function ‘virtual std::shared_ptr<dolfin::GenericFunction> dolfin::dolfin_expression_f088547d3ad7854a854bdb5f8bb5c2e3::get_generic_function(std::string) const’:
+/tmp/tmpjncsw0i1/dolfin_expression_f088547d3ad7854a854bdb5f8bb5c2e3.cpp:98:11: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   98 |           if (name == "uz") return generic_function_uz;          if (name == "wr") return generic_function_wr;          if (name == "ur") return generic_function_ur;          if (name == "wz") return generic_function_wz;
+      |           ^~
+/tmp/tmpjncsw0i1/dolfin_expression_f088547d3ad7854a854bdb5f8bb5c2e3.cpp:98:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   98 |           if (name == "uz") return generic_function_uz;          if (name == "wr") return generic_function_wr;          if (name == "ur") return generic_function_ur;          if (name == "wz") return generic_function_wz;
+      |                                                                  ^~
