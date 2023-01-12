@@ -180,7 +180,7 @@ if_mod=1
 %%
 %  Plot 2: Shear flow solutions in modified case-----------------------
 close all
-half=max(((A(:,1)+A(:,3))/2).^0.5)/2 %21.0788/2
+
  set(0, 'DefaultFigureRenderer', 'painters');
 set(groot,'DefaultAxesFontSize',12);
  figure1=figure('units','inch','position',[0,0,8.5,3.5]);
@@ -192,24 +192,23 @@ plot(sr_vec,(A(:,1)).^0.5,'k'); hold on
 plot(sr_vec,(A(:,3)).^0.5,'color',[0.5,0.5,0.5])
 set(gca,'XScale','log');
 % set(gca,'YScale','log');
-lk=xline(5148);
+lk=xline(5e3);
 % ylim([5e-4,1e4])
  
 % xlim([100,5e4])
 % xticks([10^2,10^3,10^4])
 
 lk.LineStyle='-.';
-legend({'$\mathcal{L}$','$\sqrt{A_{xx}}$','$\sqrt{A_{yy}}$','5,148s$^{-1}$'},'Location','northwest','FontSize',12);
-ylabel('VWF Length' );
+legend({'$\mathcal{L}^2$','$A_{xx}$','$A_{yy}$','5,000s$^{-1}$'},'Location','northwest','FontSize',12);
+ylabel('Configuration tensor' );
 xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
 % title('Shear flow' );
-xlim([10,1e5])
+xlim([50,1e5])
 % ylim([5e-4,1e4])
 xticks([1,10^1,10^2,10^3,10^4,10^5 ...
     ])
 if_mod=1;
 set(groot,'DefaultLineLineWidth',1)
-ylim([0,31])
 
 nexttile
 plot(sr_vec_e,((A_e(:,1)+A_e(:,2))/2).^0.5,'r'); hold on
@@ -220,38 +219,39 @@ plot(sr_vec_e,A_e(:,2).^0.5,'linewidth',1,'color',[0.5,0.5,0.5])
 
 set(gca,'XScale','log');
 % set(gca,'YScale','log');
-xline(903);
 
-% lk=xline(5e3);
+
+lk=xline(5e3);
 xlim([50,1e5])
 % ylim([5e-4,1e4])
 xticks([1,10^1,10^2,10^3,10^4,10^5 ...
     ])
-% lk.LineStyle='-.';
+lk.LineStyle='-.';
 
-lk=xline(1032);
+lk=xline(850);
 
 lk.LineStyle='-.';
 lk.Color='b';
-legend({'$\mathcal{L}$','$\sqrt{A_{xx}}$','$\sqrt{A_{yy}}$','1,032s$^{-1}$'},'Location','northwest','FontSize',12);
+legend({'$\mathcal{L}^2$','$A_{xx}$','$A_{yy}$','5,000s$^{-1}$','850s$^{-1}$'},'Location','northwest','FontSize',12);
 
 % legend({'$\mathcal{L}^2$','$A_{xx}$','$A_{yy}$','5,000s$^{-1}$'},'Location','northwest');
 % title('Elongational flow' );
 xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
 % exportgraphics(axes1,append('figs/fene_elong.png'),'Resolution',300) 
 
-ylim([0,31])
+
 t.TileSpacing = 'compact';
 t.Padding = 'compact';
 box on
-% exportgraphics(figure1,'figs/fene.eps','ContentType','vector')
+exportgraphics(figure1,'data/fene.eps','ContentType','vector')
 
 
 
 %%
-half=max(((A(:,1)+A(:,3))/2).^0.5)/2 %21.0788/2
+max(((A(:,1)+A(:,3))/2).^0.5)
 
-sr_half = interp1((((A(:,1)+A(:,3))/2).^0.5),sr_vec,half);
+
+vq1 = interp1(x,v,xq);
 %% Import data for heat plots
 Re=500
 h=0.5

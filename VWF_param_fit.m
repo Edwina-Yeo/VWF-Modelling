@@ -134,6 +134,11 @@ lip=1./(1+exp(-(sr_vec-5522)/1271));
 rel_ext=(length_v-1)/max(length_v-1);%relative extension
 rel_len=length_v/max(length_v);%relative extension
 
+
+length_v
+
+
+
 error=((rel_ext-lip))./lip; % error at each point
 error_sum=100*sum(abs(error),'all')./length(rel_ext) ;%percentage error
 set(groot,'DefaultAxesFontSize',11);
@@ -147,11 +152,12 @@ p_cell=num2cell(params); % all of the free parameters
 t=tiledlayout(1,3);
 nexttile
  set(0, 'DefaultFigureRenderer', 'painters');
+xlim([10,1e5])
 
  tau=alpha*((tanh(beta*(sr_vec-gamma_star))+1)/2+delta);
 
 %  tau=alpha_art*((tanh(beta_art*(sr_vec-gamma_star_art))+1)/2+delta_art);
-lk=xline(5e3); hold on
+lk=xline(5148); hold on
 lk.LineStyle='-.';
 semilogx(sr_vec,tau,'k','linewidth',1); hold on
 title('(a) Relaxation time $\tau$ (s)','Interpreter','latex')
@@ -161,7 +167,7 @@ xticks([1,10,10^2,10^3,10^4,10^5])
 ylim([0,0.17])
 
 xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)','Interpreter','latex')
-legend('$5,000s^{-1}$','Location','northwest')
+legend('$5,148s^{-1}$','Location','northwest')
 % exportgraphics(axes1,append('figs/relax.eps'),'Resolution',300) 
 
 t.TileSpacing = 'compact';
@@ -173,8 +179,9 @@ nexttile
 plot(sr_vec,lip,'r');
    lk= xline(5e3);
 lk.LineStyle='-.';
+xlim([10,1e5])
 
-legend('VWF model','Lippok et. al','Interpreter','latex','Location','northwest')
+legend('VWF model','Lippok et. al','$5,148s^{-1}$','Interpreter','latex','Location','northwest')
 xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
 ylim([0,1.3])
     set(gca,'XScale','log');
@@ -187,8 +194,9 @@ nexttile
 lk=xline(5e3);
 lk.LineStyle='-.';
 
+xlim([10,1e5])
 
-legend('VWF model','Interpreter','latex','Location','northwest')
+legend('VWF model','$5,148s^{-1}$','Interpreter','latex','Location','northwest')
 
 % xlabel('Shear rate, ($s^{-1}$)')
 % title('(b)')
