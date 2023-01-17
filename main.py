@@ -35,12 +35,12 @@ EPS = 1e-4
 geomfoldername = ""  # location to store data/figures in
 
 # VWF parameters which are fitted to lippok et al.
-xi   = 0.0932
+xi   =     0.0626
 kappa = 0.001 # diffusivity
-hatb =   1.2179e-04
-gamma_star= 2.3997e+04  #shear stress at which vwf unfolds
-delta=   7.8866e-06
-LL =       29.9996
+hatb =      1.7545e-04
+gamma_star=    1.9057e+04  #shear stress at which vwf unfolds
+delta=      9.9697e-04
+LL =       22.6
 
 
 def write_rect_mesh(l,nx,ny):
@@ -993,78 +993,31 @@ l=30+l2+l1
 #    base_ext=get_base_val(Ext,d)
 #    np.savetxt(path + '/base_ext.txt', base_ext, fmt='%1.9f')
 
-path1='data'
-#
-lc=0.025
-#Res=[200,300,400]
-l2s=[2,3,4,5]
-#Res=[500]
-re=500
-for i in range(len(l2s)):
-   l2=l2s[i]
-   steps=int(np.floor(re*0.2))
-
-   if not os.path.exists(path1):
-       os.mkdir(path1)
-   path = path1 + '/Re_' + str(re)+'h-'+str(h)+'l1-'+str(l1)+'l2-'+str(l2)
-   if not os.path.exists(path):
-       os.mkdir(path)
-   
-   sub_domains, mesh = write_mesh(l1, l2, h, path, l,lc)  # write mesh and domains for solving
-       # sub_domains, mesh = write_rect_mesh(l,100,100)  # write mesh and domains for solving
-   
-   ds = ds(subdomain_data=sub_domains)  # assign surface integration measure
-   d, x_base, y_base = get_base_dofs(mesh, sub_domains, 0)  # get dofs of base and their z values    
-#    (max_w, meshsize,ss_1,ss_2,psi,shear_stress_sign,u, w ,ur,uz,wr,wz,shear_stress,sr) =NS(mesh,re,sub_domains)
-   np.savetxt(path+'/y_base.txt',y_base)
-
-#    write_txt(mesh,u,'usol',path)
-#    write_txt(mesh,w,'wsol',path)
-#    
-#    V_1 = FunctionSpace(mesh, 'CG',  1)  # continous galerkin space for the velocity field.
-#    wss = interpolate(Expression('sqrt(ss_1* ss_1+ss_2 * ss_2)',degree=2,ss_1=ss_1,ss_2=ss_2),V_1)
-#    rot_rate= interpolate(Expression('uz-wr',degree=2,uz=uz,wr=wr,ur=ur,wz=wz),V_1)
-#    total_rate= interpolate(Expression('abs((uz-wr))-sr',degree=2,uz=uz,wr=wr,ur=ur,wz=wz,sr=sr),V_1)
-#    
-#    write_txt(mesh,rot_rate,'rot',path)
-#    write_txt(mesh,total_rate,'tot',path)
-#    write_txt(mesh,sr,'sr',path)
-#
-#    np.savetxt(path + '/ss_sign.txt', get_base_val(shear_stress_sign, d), fmt='%1.9f')
-#    np.savetxt(path + '/wss.txt', get_base_val(wss, d), fmt='%1.9f')
-#    np.savetxt(path + '/x_base.txt', x_base, fmt='%1.9f')
-#    #
-#    # #  Create velocity function.
-#    (F2, tau_gamma, Re, VV, V,W) = fene_init(mesh, u, w, ur, uz, wr, wz, sub_domains, re, sr)
-#    Ext=fene_solve(F2,tau_gamma,Re,sub_domains,re,sr,VV,V,W,steps)
-#    base_ext=get_base_val(Ext,d)
-#    np.savetxt(path + '/base_ext.txt', base_ext, fmt='%1.9f')
-
-
-
+# path1='data'
+# #
 # lc=0.025
 # #Res=[200,300,400]
-# hs=[0.4,0.3,0.2]
+# l2s=[2,3,4,5]
 # #Res=[500]
 # re=500
-# for i in range(len(hs)):
-#     h=hs[i]
-#     steps=int(np.floor(re*0.2))
+# for i in range(len(l2s)):
+#    l2=l2s[i]
+#    steps=int(np.floor(re*0.2))
 
-#     if not os.path.exists(path1):
-#         os.mkdir(path1)
-#     path = path1 + '/Re_' + str(re)+'h-'+str(h)+'l1-'+str(l1)+'l2-'+str(l2)
-#     if not os.path.exists(path):
-#         os.mkdir(path)
-#     print(path)
-    
+#    if not os.path.exists(path1):
+#        os.mkdir(path1)
+#    path = path1 + '/Re_' + str(re)+'h-'+str(h)+'l1-'+str(l1)+'l2-'+str(l2)
+#    if not os.path.exists(path):
+#        os.mkdir(path)
+   
 #    sub_domains, mesh = write_mesh(l1, l2, h, path, l,lc)  # write mesh and domains for solving
 #        # sub_domains, mesh = write_rect_mesh(l,100,100)  # write mesh and domains for solving
-#    
+   
 #    ds = ds(subdomain_data=sub_domains)  # assign surface integration measure
 #    d, x_base, y_base = get_base_dofs(mesh, sub_domains, 0)  # get dofs of base and their z values    
-#    (max_w, meshsize,ss_1,ss_2,psi,shear_stress_sign,u, w ,ur,uz,wr,wz,shear_stress,sr) =NS(mesh,re,sub_domains)
-#    
+# #    (max_w, meshsize,ss_1,ss_2,psi,shear_stress_sign,u, w ,ur,uz,wr,wz,shear_stress,sr) =NS(mesh,re,sub_domains)
+#    np.savetxt(path+'/y_base.txt',y_base)
+
 #    write_txt(mesh,u,'usol',path)
 #    write_txt(mesh,w,'wsol',path)
 #    
@@ -1086,5 +1039,53 @@ for i in range(len(l2s)):
 #    Ext=fene_solve(F2,tau_gamma,Re,sub_domains,re,sr,VV,V,W,steps)
 #    base_ext=get_base_val(Ext,d)
 #    np.savetxt(path + '/base_ext.txt', base_ext, fmt='%1.9f')
+
+
+
+lc=0.025
+#Res=[200,300,400]
+# hs=[0.4,0.3,0.2]
+hs=[0.5]
+#Res=[500]
+re=400
+for i in range(len(hs)):
+    h=hs[i]
+    steps=int(np.floor(re*0.2))
+
+    if not os.path.exists(path1):
+        os.mkdir(path1)
+    path = path1 + '/Reynolds_' + str(re)+'h-'+str(h)+'l1-'+str(l1)+'l2-'+str(l2)
+    if not os.path.exists(path):
+        os.mkdir(path)
+    print(path)
+    
+    sub_domains, mesh = write_mesh(l1, l2, h, path, l,lc)  # write mesh and domains for solving
+       # sub_domains, mesh = write_rect_mesh(l,100,100)  # write mesh and domains for solving
+   
+    ds = ds(subdomain_data=sub_domains)  # assign surface integration measure
+    d, x_base, y_base = get_base_dofs(mesh, sub_domains, 0)  # get dofs of base and their z values    
+    (max_w, meshsize,ss_1,ss_2,psi,shear_stress_sign,u, w ,ur,uz,wr,wz,shear_stress,sr) =NS(mesh,re,sub_domains)
+
+    write_txt(mesh,u,'usol',path)
+    write_txt(mesh,w,'wsol',path)
+
+    V_1 = FunctionSpace(mesh, 'CG',  1)  # continous galerkin space for the velocity field.
+    wss = interpolate(Expression('sqrt(ss_1* ss_1+ss_2 * ss_2)',degree=2,ss_1=ss_1,ss_2=ss_2),V_1)
+    rot_rate= interpolate(Expression('uz-wr',degree=2,uz=uz,wr=wr,ur=ur,wz=wz),V_1)
+    total_rate= interpolate(Expression('abs((uz-wr))-sr',degree=2,uz=uz,wr=wr,ur=ur,wz=wz,sr=sr),V_1)
+
+    write_txt(mesh,rot_rate,'rot',path)
+    write_txt(mesh,total_rate,'tot',path)
+    write_txt(mesh,sr,'sr',path)
+
+    np.savetxt(path + '/ss_sign.txt', get_base_val(shear_stress_sign, d), fmt='%1.9f')
+    np.savetxt(path + '/wss.txt', get_base_val(wss, d), fmt='%1.9f')
+    np.savetxt(path + '/x_base.txt', x_base, fmt='%1.9f')
+    #
+    # #  Create velocity function.
+    (F2, tau_gamma, Re, VV, V,W) = fene_init(mesh, u, w, ur, uz, wr, wz, sub_domains, re, sr)
+    Ext=fene_solve(F2,tau_gamma,Re,sub_domains,re,sr,VV,V,W,steps)
+    base_ext=get_base_val(Ext,d)
+    np.savetxt(path + '/base_ext.txt', base_ext, fmt='%1.9f')
 
 

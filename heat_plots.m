@@ -68,23 +68,25 @@ loc=4
 
 Nplot=logspace(1,5,10);
 
-figure1=figure('units','inch','position',[0,0,3,3]);
+figure1=figure('units','inch','position',[0,0,4,4]);
 % loglog(times,abs(maxs-max_pb),'k.-','MarkerSize',10) ;hold on
  loglog(verts(2:end),abs((maxe(2:end)-maxe(1)))/(maxe(1)),'k.-','MarkerSize',10) ;hold on
 loglog(verts(2:end),abs((maxw(2:end)-maxw(1)))/(maxw(1)),'.-','MarkerSize',10,'Color',[0.5,0.5,0.5]) ;hold on
  loglog(verts(loc),abs((maxe(loc)-maxe(1)))/(maxe(1)),'r.-','MarkerSize',10) ;hold on
-loglog(verts(loc),abs((maxw(loc)-maxw(2)))/(maxw(2)),'r.-','MarkerSize',10) ;hold on
+loglog(verts(loc),abs((maxw(loc)-maxw(1)))/(maxw(1)),'r.-','MarkerSize',10) ;hold on
 Nplot=logspace(3.8,5,10);
- loglog(Nplot,(20*Nplot.^(-1)),'k-.','MarkerSize',10); hold on
+%  loglog(Nplot,(20*Nplot.^(-1)),'k-.','MarkerSize',10); hold on
 
 Nplot=logspace(3.8,5,10);
- loglog(Nplot,(5000*Nplot.^(-2)),'k-.','MarkerSize',10,'Color',[0.5,0.5,0.5]) ;hold on
+%  loglog(Nplot,(5000*Nplot.^(-2)),'k-.','MarkerSize',10,'Color',[0.5,0.5,0.5]) ;hold on
 %  loglog(Nplot,(Nplot.^(-1)),'b-','MarkerSize',10); hold on
 
 % loglog(times(4),abs(maxs(4)-max_pb),'r.','MarkerSize',10) ;hold on
 
 xlabel('Mesh vertices')
 ylabel('Relative error in maximum')
+
+title('(a) Maximum convergence')
 xticks([1e2,1e3,1e4,1e5])
 yticks([1e-5,1e-4,1e-3,1e-2,1e-1])
 
@@ -93,7 +95,8 @@ legend('VWF Eq.','Navier Stokes Eq.','Selected mesh','Location','southwest')
 
 % ylim([10^(-3),20])
 % xlim([10^(-3.8),0.3])
-exportgraphics(figure1,'data/mesh_validation.png','Resolution',300) 
+exportgraphics(figure1,'data/mesh_validation.eps','ContentType','vector')
+
 
 
 %%
@@ -105,8 +108,8 @@ close all
 figure1=figure('units','inch','position',[0,0,3,3]);
 % loglog(times,abs(maxs-max_pb),'k.-','MarkerSize',10) ;hold on
 %  loglog(Nplot,(2*Nplot),'b-','MarkerSize',10)
- loglog(verts(2:end),100*abs(mine(2:end))/maxe(2),'k.-','MarkerSize',10) ;hold on
-%   loglog(verts(loc),abs(mine(loc))/maxe(2),'r.-','MarkerSize',10) ;hold on
+ loglog(verts(2:end),abs(mine(2:end))/maxe(1),'k.-','MarkerSize',10) ;hold on
+  loglog(verts(loc),abs(mine(loc))/maxe(1),'r.-','MarkerSize',10) ;hold on
 
 %  loglog(verts(end-2),abs((maxe(end-2)-maxe(2)))/(maxe(2)),'r.-','MarkerSize',10) ;hold on
 
@@ -123,16 +126,17 @@ yticks([1e-5,1e-4,1e-3,1e-2,1e-1,1e0,1e1,1e2])
 
 % ylim([10^(-3),20])
 % xlim([10^(-3.8),0.3])
-exportgraphics(figure1,'data/min_fene.png','Resolution',300) 
+% exportgraphics(figure1,'data/min_fene.png','Resolution',300) 
 
+exportgraphics(figure1,'data/min_fene.eps','ContentType','vector')
 
-
+%%
 close all
 
 
 % Nplot=logspace(-2.8,-1.8,10);
 
-figure1=figure('units','inch','position',[0,0,3,3]);
+figure1=figure('units','inch','position',[0,0,4,4]);
 % loglog(times,abs(maxs-max_pb),'k.-','MarkerSize',10) ;hold on
 %  loglog(Nplot,(2*Nplot),'b-','MarkerSize',10)
  loglog(verts(2:end),100*abs(mine(2:end))/maxe(2),'k.-','MarkerSize',10) ;hold on
@@ -142,6 +146,8 @@ figure1=figure('units','inch','position',[0,0,3,3]);
 
 % loglog(times(4),abs(maxs(4)-max_pb),'r.','MarkerSize',10) ;hold on
 yline(1)
+title('(b) Minimum convergence')
+
 xlabel('Mesh vertices')
 ylabel('Minimum extension (normalised)')
 xticks([1e2,1e3,1e4,1e5])
@@ -153,6 +159,8 @@ yticks([1e-5,1e-4,1e-3,1e-2,1e-1,1e0,1e1,1e2])
 
 % ylim([10^(-3),20])
 % xlim([10^(-3.8),0.3])
+exportgraphics(figure1,'data/min_fene.eps','ContentType','vector')
+
 % exportgraphics(figure1,'data/min_fene.png','Resolution',300) 
 %%
 
@@ -371,11 +379,15 @@ l2=5;
 path='data/Re_'+string(Re)+'h-'+string(h)+'l1-'+string(l1)+'l2-'+string(l2)+'/';
  tot=importdata(path+'tot.txt');
 sr=importdata(path+'sr.txt');
- ex=importdata(path+'extsol.txt');
+
+rot=importdata(path+'rot.txt');
+ex=importdata(path+'extsol.txt');
 
 bounda=0.4;
 [DT5,IO5,x5,y5,ztot5,k5]=extract(tot,bounda);
 [~,~,~,~,sr5,~]=extract(sr,bounda);
+[~,~,~,~,rot5,~]=extract(rot,bounda);
+
 [~,~,~,~,ze5,~]=extract(ex,bounda);
 
 % case 2: l2=2 using lenient boundary tolerance
@@ -384,10 +396,13 @@ bounda=0.4;
  tot2=importdata(path+'tot.txt');
  sr=importdata(path+'sr.txt');
  ex=importdata(path+'extsol.txt');
+ rot=importdata(path+'rot.txt');
+
 bounda=0.2;
 [DT2,IO2,x2,y2,ztot2,k2]=extract(tot2,bounda);
 [~,~,~,~,sr2,~]=extract(sr,bounda);
 [~,~,~,~,ze2,~]=extract(ex,bounda);
+[~,~,~,~,rot2,~]=extract(rot,bounda);
 
 
 
@@ -406,7 +421,10 @@ vr = griddata([x2;x2],[y2;-y2],[ztot2;ztot2],xq,yq);
 
 
 %% Flow structure plots
-     set(0, 'DefaultFigureRenderer', 'painters');
+
+tdata = load('red_blue_cmap.mat');  %load into structure
+
+     set(0, 'DefaultFigureRenderer', 'opengl');
 scale=1.3;
 set(groot,'DefaultAxesFontSize',12*scale);
 
@@ -416,11 +434,11 @@ nexttile % ax_vel = axes;
 
 plot3(c5(1,end5(1):6:end5(2)),c5(2,end5(1):6:end5(2)),100*ones(size(c5(2,end5(1):6:end5(2)))),'k-.','LineWidth',0.2*scale); hold on
 
-s=trisurf(DT5(IO5, :),x5,y5,-ztot5,'FaceColor','interp'); hold on
+s=trisurf(DT5(IO5, :),x5,y5,(abs(sr5)-abs(rot5))./((abs(sr5)+abs(rot5))),'FaceColor','interp'); hold on
 s.EdgeColor='none';
 view(2)
 
-caxis([-1.2,1.2]);
+% caxis([-1.2,1.2]);
  xlim([-10,10])
 title('(a) Shallow Stenosis, $l_2=5$')
 colormap(tdata.cmap)
@@ -433,14 +451,14 @@ legend('Elongational flow: $(\dot{\gamma}-\dot{\omega})>0.1$')
     ylabel('$r$','Interpreter','latex')
 
 nexttile 
-
+lam=(abs(sr2)-abs(rot2))./(abs(sr2)+abs(rot2));
 plot3(c2(1,2:6:end),c2(2,2:6:end),100*ones(size(c2(1,2:6:end))),'k-.','LineWidth',0.2*scale); hold on
-s=trisurf(DT2(IO2, :),x2,y2,-ztot2,'FaceColor','interp'); hold on
+s=trisurf(DT2(IO2, :),x2,y2,real(sqrt(lam)).*abs(sr2/2)*gamma_scale*1e-3,'FaceColor','interp'); hold on
 s.EdgeColor='none';
 view(2)
 plot3([-10,10,10,-10,-10],[0,0,1,1,0],[100,100,100,100,100],'k','LineWidth',0.2)
 
-caxis([-1.55,1.55]);
+%  caxis([-1.55,1.55]);
  ylim([0,1])
  xlim([-10,10])
  t.TileSpacing = 'compact';
@@ -453,7 +471,61 @@ box on
 box on
     xlabel('$z$');
 grid off
-exportgraphics(figure1,'data/class.eps','ContentType','vector')
+% exportgraphics(figure1,'data/class.eps','ContentType','vector')
+
+
+
+
+tdata = load('red_blue_cmap.mat');  %load into structure
+
+     set(0, 'DefaultFigureRenderer', 'opengl');
+scale=1.3;
+set(groot,'DefaultAxesFontSize',12*scale);
+
+figure1=figure('units','inch','position',[0,0,8*scale,3*scale]);
+t=tiledlayout(1,2);
+nexttile % ax_vel = axes;
+
+plot3(c5(1,end5(1):6:end5(2)),c5(2,end5(1):6:end5(2)),100*ones(size(c5(2,end5(1):6:end5(2)))),'k-.','LineWidth',0.2*scale); hold on
+
+s=trisurf(DT2(IO2, :),x2,y2,lam,'FaceColor','interp'); hold on
+s.EdgeColor='none';
+view(2)
+colorbar
+% caxis([-1.2,1.2]);
+ xlim([-10,10])
+title('(a) Shallow Stenosis, $l_2=5$')
+colormap(tdata.cmap)
+plot3([-10,10,10,-10,-10],[0,0,1,1,0],[100,100,100,100,100],'k','LineWidth',0.2)
+grid off
+legend('Elongational flow: $(\dot{\gamma}-\dot{\omega})>0.1$')
+
+ ylim([0,1])
+    xlabel('$z$');
+    ylabel('$r$','Interpreter','latex')
+
+nexttile 
+lam=(abs(sr2)-abs(rot2))./(abs(sr2)+abs(rot2));
+plot3(c2(1,2:6:end),c2(2,2:6:end),100*ones(size(c2(1,2:6:end))),'k-.','LineWidth',0.2*scale); hold on
+s=trisurf(DT2(IO2, :),x2,y2,real(sqrt(lam)).*abs(sr2/2)*gamma_scale*1e-3,'FaceColor','interp'); hold on
+s.EdgeColor='none';
+view(2)
+plot3([-10,10,10,-10,-10],[0,0,1,1,0],[100,100,100,100,100],'k','LineWidth',0.2)
+
+%  caxis([-1.55,1.55]);
+ ylim([0,1])
+ xlim([-10,10])
+ t.TileSpacing = 'compact';
+t.Padding = 'compact';title('(b) Steep Stenosis, $l_2=2$')
+a=colorbar('TickLabelInterpreter','latex');
+a.Label.String = '$\dot{\gamma}-\dot{\omega}$';
+a.Label.Interpreter = 'latex';
+a.Label.FontSize = 1*scale;
+box on
+box on
+    xlabel('$z$');
+grid off
+% exportgraphics(figure1,'data/class.eps','ContentType','vector')
 
 
 
