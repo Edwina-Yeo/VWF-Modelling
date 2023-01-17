@@ -1047,6 +1047,7 @@ lc=0.025
 # hs=[0.4,0.3,0.2]
 hs=[0.5]
 #Res=[500]
+path1='data'
 re=400
 for i in range(len(hs)):
     h=hs[i]
