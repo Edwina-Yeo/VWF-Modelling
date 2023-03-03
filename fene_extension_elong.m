@@ -1,22 +1,21 @@
 
 
-function [length_v,A,sr_val]=fene_extension_elong(params,if_mod)
+function [length_v,A]=fene_extension_elong(params,if_mod,sr_vec)
 
 hatb=params(2);
 gamma_star=params(3);
 De=params(1);
 LL=params(end);
 delta=params(4);
+N=length(sr_vec);
 
-N=1000;
-sr_val=logspace(-1,6,N);
 A=zeros(N,2);
 
 length_v=zeros(N,1);
 previous=[1,1];
-for i=1:length(sr_val)
+for i=1:length(sr_vec)
 
-DATA = [hatb,gamma_star,De,LL,delta,sr_val(i)];
+DATA = [hatb,gamma_star,De,LL,delta,sr_vec(i)];
 options = optimset('Display','off');% so that fsolve doesnt print
 
 % f = @(y) fene_shear(y,DATA); 

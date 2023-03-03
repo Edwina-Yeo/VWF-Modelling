@@ -5,7 +5,7 @@
 # Date: 11/22
 
 import matplotlib.pyplot as plt
-from fenics import *
+from dolfinx import *
 import numpy as np
 import os
 from scipy.optimize import fsolve
@@ -29,7 +29,7 @@ nsten = 20  # along the stenosis
 nx = 20
 
 
-set_log_level(30)  # output for fenics solver, only if warnings come out.
+# set_log_level(30)  # output for fenics solver, only if warnings come out.
 degree = 1  # degree of lagrange elements
 EPS = 1e-4
 geomfoldername = ""  # location to store data/figures in

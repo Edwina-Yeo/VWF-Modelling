@@ -7,21 +7,23 @@ plot_display=0;
 % [alpha,beta,gamma_star,delta,LL]
 initial_guess=[];
 initial_guess(1)=0.01;
-initial_guess(2)=2/1271; % from Lippok et al.
-initial_guess(3)=5522; % from Lippok et al.
+initial_guess(2)=1e-3; % from Lippok et al.
+initial_guess(3)=1e4; % from Lippok et al.
 initial_guess(4)=1e-6; % 
 LL=22.6;% from Schnieder et al. to obtain a maximum extension of 15, i.e. a max length of 16. 
 % calculated: 16*sqrt(2)
 
-lb=[1e-6,1e-8,1e4,1e-8]; % lower bound
-ub=[0.1,1e-3,7e4,1e-3]; % upper bound
+lb=[1e-3,1e-8,4e3,1e-8]; % lower bound
+ub=[0.1,1e-2,2e4,1e-3]; % upper bound
 %
 x2 = fmincon(@(params)vwf_fit_li(params,plot_display,LL),initial_guess,[],[],[],[],lb,ub);
 %%
-save('data/fitted_parameters.txt','x2','-ascii')
+%  save('data/fitted_parameters.txt','x2','-ascii')
 
 %
 plot_display=1;
+
+% x_current=load('data/fitted_parameters.txt')
 
 
 vwf_fit_li(x2,plot_display,LL)
@@ -60,17 +62,17 @@ xlim([10,1e5])
  tau=alpha*((tanh(beta*(sr_vec-gamma_star))+1)/2+delta);
 
 %  tau=alpha_art*((tanh(beta_art*(sr_vec-gamma_star_art))+1)/2+delta_art);
-lk=xline(5148); hold on
+lk=xline(5096); hold on
 lk.LineStyle='-.';
 semilogx(sr_vec,tau,'k','linewidth',1); hold on
 title('(a) Relaxation time $\tau$ (s)','Interpreter','latex')
 set(gca,'XScale','log');
 % xlim([100,5e4])
 xticks([1,10,10^2,10^3,10^4,10^5])
-ylim([0,0.17])
+ylim([0,0.08])
 
 xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)','Interpreter','latex')
-legend('$5,148s^{-1}$','Location','northwest')
+legend('$5,096s^{-1}$','Location','northwest')
 % exportgraphics(axes1,append('figs/relax.eps'),'Resolution',300) 
 
 t.TileSpacing = 'compact';
@@ -80,13 +82,13 @@ box on
 nexttile
         plot(sr_vec,rel_ext,'k'); hold on
 plot(sr_vec,lip,'r');
-   lk= xline(5e3);
+   lk= xline(5096);
 lk.LineStyle='-.';
 xlim([10,1e5])
 
-legend('VWF model','Lippok et. al','$5,148s^{-1}$','Interpreter','latex','Location','northwest')
+legend('VWF model','Lippok et. al','$5,096s^{-1}$','Interpreter','latex','Location','northwest')
 xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
-ylim([0,1.3])
+ylim([0,1.1])
     set(gca,'XScale','log');
 xticks([1,10,10^2,10^3,10^4,10^5])
 title('(b) Relative VWF extension')
@@ -105,13 +107,13 @@ nexttile
     plot(sch(:,1),sch(:,2),'r.','MarkerSize',10)
 
 %              errorbar(exp_sr,(exp_ext),exp_vwf_err,'.','Color',  cmap(ceil(length(cmap)),:)); hold on
-lk=xline(5e3);
+lk=xline(5096);
 lk.LineStyle='-.';
 
 xlim([10,1e5])
 ylim([0,17])
 
-legend('VWF model','Schneider et al.','$5,148s^{-1}$','Interpreter','latex','Location','northwest')
+legend('VWF model','Schneider et al.','$5,096s^{-1}$','Interpreter','latex','Location','northwest')
 
 
 % xlabel('Shear rate, ($s^{-1}$)')
@@ -123,7 +125,65 @@ title('(c) VWF length')
 xticks([1,10,10^2,10^3,10^4,10^5])
 xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
 
-% exportgraphics(figure1,'figs/model_vwf_fit.eps','ContentType','vector')
+exportgraphics(figure1,'figs/model_vwf_fit.eps','ContentType','vector')
+
+
+
+
+
+figure
+ set(0, 'DefaultFigureRenderer', 'painters');
+
+
+
+sch=[1, 1.0810810810810807;
+10.00000000000001, 1.0810810810810807;
+100, 1.1226611226611247;
+398.1071705534969, 1.0810810810810807;
+1751.7747448309788, 1.2058212058212057;
+4863.585127384103, 12.515592515592514;
+7864.156977348052, 15.01039501039501]; % extracted from Schnider extension data
+
+xlim([10,1e5])
+
+
+        plot(sr_vec,rel_ext,'k'); hold on
+plot(sr_vec,lip,'r');
+   lk= xline(5096);
+lk.LineStyle='-.';
+xlim([10,1e5])
+
+legend('VWF model','Lippok et. al','$5,096s^{-1}$','Interpreter','latex','Location','northwest')
+xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
+ylim([0,1.1])
+    set(gca,'XScale','log');
+xticks([1,10,10^2,10^3,10^4,10^5])
+title('(b) Relative VWF extension')
+
+nexttile
+    plot(sr_vec,length_v,'k'); hold on
+    plot(sch(:,1),sch(:,2),'r.','MarkerSize',10)
+
+%              errorbar(exp_sr,(exp_ext),exp_vwf_err,'.','Color',  cmap(ceil(length(cmap)),:)); hold on
+lk=xline(5096);
+lk.LineStyle='-.';
+
+xlim([10,1e5])
+ylim([0,17])
+
+legend('VWF model','Schneider et al.','$5,096s^{-1}$','Interpreter','latex','Location','northwest')
+
+
+% xlabel('Shear rate, ($s^{-1}$)')
+% title('(b)')
+title('(c) VWF length')
+
+    set(gca,'XScale','log');
+% exportgraphics(figure1 ,append('figs/model_vwf_fit.png'),'Resolution',300) 
+xticks([1,10,10^2,10^3,10^4,10^5])
+xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
+
+exportgraphics(figure1,'figs/model_vwf_fit.png','ContentType','vector')
 end
 
 end

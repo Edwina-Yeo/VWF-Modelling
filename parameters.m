@@ -44,7 +44,7 @@ x_current=load('data/fitted_parameters.txt')
 % 
 % %  Extract params from minima
 p_cell=num2cell(x_current); % all of the free parameters
-[alpha,beta,gamma_star,delta]=p_cell{:};
+[alpha,beta,gamma_star,delta]=p_cell{:}
 % parameters
 
 xi=alpha*mu/(d^2*rho)
