@@ -10,26 +10,31 @@ set(groot,'DefaultLineLineWidth',1)
 sr_vec=[logspace(0,5,2000)]';
 if_mod=1
 
-ll=LL./[7.5,5,2.5,1,1/2.5,1/5.5];
+ll=LL./[7.5,5,2.5,1,1/2.5,1/5.5]
+%%
  figure1=figure('units','inch','position',[0,0,8.5,3.5]);
 
      set(0, 'DefaultFigureRenderer', 'opengl');
+x2(1)*LL^2
+exportgraphics(figure1,'figs/Lsw.eps','ContentType','vector')
 
+%
 for i=1:length(ll)
 params=[x2,ll(i)];
+% params(1)=x2(1)*ll(i)^2/LL^2;
 [len,A]=vwf_extension_shear(params,sr_vec); %run VWF model
 [len2,A_e]=fene_extension_elong(params,if_mod,sr_vec); %run VWF model
 half=max(((A(:,1)+A(:,3))/2).^0.5)/2; %21.0788/2
 % Estimate middles
 len=((A(:,1)+A(:,3))/2).^0.5;
 [C, ia, ic] = unique(len);
-sr_half = interp1(C,sr_vec(ia),half)
+% sr_half = interp1(C,sr_vec(ia),half);
 % lk=xline(sr_half);
 half=max(((A_e(:,1)+A_e(:,2))/2).^0.5)/2; %21.0788/2
 
-len2=((A_e(:,1)+A_e(:,2))/2).^0.5
+len2=((A_e(:,1)+A_e(:,2))/2).^0.5;
 [C, ia, ic] = unique(len2);
-sr_half_e = interp1(C,sr_vec(ia),half)
+% sr_half_e = interp1(C,sr_vec(ia),half);
 
 % subplot(1,2,2)
 
@@ -39,7 +44,7 @@ subplot(1,2,1)
 plot(sr_vec,(((A(:,1)+A(:,3))/2).^0.5-1)./(max(((A(:,1)+A(:,3))/2).^0.5-1,[],'all'))); hold on
 
 set(gca,'XScale','log');
-legend({'$\mathcal{L}$','$\sqrt{A_{xx}}$','$\sqrt{A_{yy}}$','5,096s$^{-1}$'},'Location','northwest','FontSize',12);
+% legend({'$\mathcal/{L}$','$\sqrt{A_{xx}}$','$\sqrt{A_{yy}}$','5,096s$^{-1}$'},'Location','northwest','FontSize',12);
 ylabel('VWF Length' );
 xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
 xlim([100,1e5])
@@ -48,13 +53,13 @@ xticks([1,10^1,10^2,10^3,10^4,10^5 ...
 if_mod=1;
 set(groot,'DefaultLineLineWidth',1)
 
-xlim([100,1e4])
+% xlim([100,1e4])
 
 % if i==1||i==length(ll)
 % subplot(1,2,1)
 % sr_half
 
-    xline(sr_half)
+%     xline(sr_half)
 %     i
 %     20
 % end
@@ -74,23 +79,24 @@ set(gca,'XScale','log');
 % ylim([5e-4,1e4])
 xticks([1,10^1,10^2,10^3,10^4,10^5 ...
     ])
+legend('L=3','L=4.5','L=9','L=22','L=50','L=100')
 
 % lk=xline(sr_half_e);
 % lk.LineStyle='-.';
 % lk.Color='b';
-legend({'$\mathcal{L}$','$\sqrt{A_{xx}}$','$\sqrt{A_{yy}}$','1,947s$^{-1}$'},'Location','northwest','FontSize',12);
+% legend({'$\mathcal{L}$','$\sqrt{A_{xx}}$','$\sqrt{A_{yy}}$','1,947s$^{-1}$'},'Location','northwest','FontSize',12);
 
 % legend({'$\mathcal{L}^2$','$A_{xx}$','$A_{yy}$','5,000s$^{-1}$'},'Location','northwest');
 % title('Elongational flow' );
 xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
 % exportgraphics(axes1,append('figs/fene_elong.png'),'Resolution',300) 
 % ylim([0,23])
-xlim([100,1e4])
+xlim([100,1e5])
 
 % if i==1||i==length(ll)
 %     subplot(1,2,2)
 % sr_half_e
-xline(sr_half_e)
+% xline(sr_half_e)
 % i
 % 10
 % end
@@ -98,5 +104,7 @@ xline(sr_half_e)
 % t.Padding = 'compact';
 box on
 % exportgraphics(figure1,'figs/fene.eps','ContentType','vector')
+legend('L=3','L=4.5','L=9','L=22','L=50','L=100')
 
 end
+exportgraphics(figure1,'figs/Lsw.eps','ContentType','vector')
