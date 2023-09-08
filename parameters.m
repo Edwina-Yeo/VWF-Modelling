@@ -38,6 +38,7 @@ gamma_scale= U_scale/d
 
 %%
 
+sr_vec=[logspace(0,5,2000)]';
 
 x_current=load('data/fitted_parameters.txt')
 

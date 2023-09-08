@@ -21,12 +21,15 @@ x2 = fmincon(@(params)vwf_fit_li(params,plot_display,LL),initial_guess,[],[],[],
 %  save('data/fitted_parameters.txt','x2','-ascii')
 
 %
+
+clear all
+parameters
 plot_display=1;
 
-% x_current=load('data/fitted_parameters.txt')
+x_current=load('data/fitted_parameters.txt')
 
 
-vwf_fit_li(x2,plot_display,LL)
+vwf_fit_li(x_current,plot_display,LL)
 
 
 
@@ -71,8 +74,8 @@ set(gca,'XScale','log');
 xticks([1,10,10^2,10^3,10^4,10^5])
 ylim([0,0.08])
 
-xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)','Interpreter','latex')
-legend('$5,096s^{-1}$','Location','northwest')
+xlabel(' Shear rate $\dot{\gamma}$ (s$^{-1}$)','Interpreter','latex')
+legend('$5,096$ s$^{-1}$','Location','northwest')
 % exportgraphics(axes1,append('figs/relax.eps'),'Resolution',300) 
 
 t.TileSpacing = 'compact';
@@ -86,8 +89,8 @@ plot(sr_vec,lip,'r');
 lk.LineStyle='-.';
 xlim([10,1e5])
 
-legend('VWF model','Lippok et. al','$5,096s^{-1}$','Interpreter','latex','Location','northwest')
-xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
+legend('VWF model','Lippok et al.','$5,096$ s$^{-1}$','Interpreter','latex','Location','northwest')
+xlabel(' Shear rate $\dot{\gamma}$ (s$^{-1}$)');
 ylim([0,1.1])
     set(gca,'XScale','log');
 xticks([1,10,10^2,10^3,10^4,10^5])
@@ -113,7 +116,7 @@ lk.LineStyle='-.';
 xlim([10,1e5])
 ylim([0,17])
 
-legend('VWF model','Schneider et al.','$5,096s^{-1}$','Interpreter','latex','Location','northwest')
+legend('VWF model','Schneider et al.','$5,096$ s$^{-1}$','Interpreter','latex','Location','northwest')
 
 
 % xlabel('Shear rate, ($s^{-1}$)')

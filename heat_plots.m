@@ -194,14 +194,14 @@ x2=load('data/fitted_parameters.txt')
 
 set(groot,'DefaultLineLineWidth',1)
 % vwf_params=[alpha,beta,gamma_star,delta,LL];
-sr_vec=[logspace(0,3,50),logspace(3,5,200)]';
+sr_vec=logspace(0,5,1000);
 if_mod=1
 
 params=[x2,LL]
 [len,A]=vwf_extension_shear(params,sr_vec) %run VWF model
 
 
-[len,A_e,sr_vec_e]=fene_extension_elong(params,if_mod); %run VWF model
+[len,A_e]=fene_extension_elong(params,if_mod,sr_vec); %run VWF model
 
 
 %% Estimate middles
@@ -212,7 +212,7 @@ sr_half = interp1(C,sr_vec(ia),half)
 
 len2=((A_e(:,1)+A_e(:,2))/2).^0.5;
 [C, ia, ic] = unique(len2);
-sr_half_e = interp1(C,sr_vec_e(ia),half)
+sr_half_e = interp1(C,sr_vec(ia),half)
 
 %%
 
@@ -242,7 +242,7 @@ lk=xline(sr_half);
 lk.LineStyle='-.';
 legend({'$\mathcal{L}$','$\sqrt{A_{xx}}$','$\sqrt{A_{yy}}$','5,096s$^{-1}$'},'Location','northwest','FontSize',12);
 ylabel('VWF Length' );
-xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
+xlabel(' Shear rate $\dot{\gamma}$ (s$^{-1}$)');
 % title('Shear flow' );
 xlim([100,1e5])
 % ylim([5e-4,1e4])
@@ -256,11 +256,11 @@ ylim([0,23])
 nexttile
 xlim([100,1e4])
 
-plot(sr_vec_e,((A_e(:,1)+A_e(:,2))/2).^0.5,'r'); hold on
-plot(sr_vec_e,A_e(:,1).^0.5,'k','linewidth',1); hold on
+plot(sr_vec,((A_e(:,1)+A_e(:,2))/2).^0.5,'r'); hold on
+plot(sr_vec,A_e(:,1).^0.5,'k','linewidth',1); hold on
 % plot(sr_vec_e,zeros(size(A_e(:,1))),'k','linewidth',1); hold on
 
-plot(sr_vec_e,A_e(:,2).^0.5,'linewidth',1,'color',[0.5,0.5,0.5])
+plot(sr_vec,A_e(:,2).^0.5,'linewidth',1,'color',[0.5,0.5,0.5])
 
 set(gca,'XScale','log');
 % set(gca,'YScale','log');
@@ -272,12 +272,12 @@ xticks([1,10^1,10^2,10^3,10^4,10^5 ...
 
 lk=xline(sr_half_e);
 lk.LineStyle='-.';
-lk.Color='b';
+lk.Color='k';
 legend({'$\mathcal{L}$','$\sqrt{A_{xx}}$','$\sqrt{A_{yy}}$','1,947s$^{-1}$'},'Location','northwest','FontSize',12);
 
 % legend({'$\mathcal{L}^2$','$A_{xx}$','$A_{yy}$','5,000s$^{-1}$'},'Location','northwest');
 % title('Elongational flow' );
-xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
+xlabel(' Shear rate $\dot{\gamma}$ (s$^{-1}$)');
 % exportgraphics(axes1,append('figs/fene_elong.png'),'Resolution',300) 
 ylim([0,23])
 xlim([100,1e5])
