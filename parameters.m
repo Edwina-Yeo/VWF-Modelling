@@ -22,13 +22,19 @@ d=0.002; % pipe radius
 U=0.5;
 
 % % % Parameters dimensionless
-Re=U*d*rho/mu
+Re=U*d*rho/mu;
+
+% d=0.0015
+% 
+% u1=100*mu/(d*rho)
+% u2=500*mu/(d*rho)
+
 % 
 
 % Re=400
 
-U_scale= Re*mu/(d*rho)
-gamma_scale= U_scale/d
+U_scale= Re*mu/(d*rho);
+gamma_scale= U_scale/d;
 
 % 
 % gamma_scale*3.7
@@ -36,23 +42,23 @@ gamma_scale= U_scale/d
 % 
 % gamma_scale*45
 
-%%
+%
 
 sr_vec=[logspace(0,5,2000)]';
 
-x_current=load('data/fitted_parameters.txt')
+x_current=load('data/fitted_parameters.txt');
 
 % 
 % %  Extract params from minima
 p_cell=num2cell(x_current); % all of the free parameters
-[alpha,beta,gamma_star,delta]=p_cell{:}
+[alpha,beta,gamma_star,delta]=p_cell{:};
 % parameters
 
-xi=alpha*mu/(d^2*rho)
-gamma_hat=gamma_star*d^2*rho/mu
-hat_beta=beta*mu/(d^2*rho)
-LL=22.6
-delta
+xi=alpha*mu/(d^2*rho);
+gamma_hat=gamma_star*d^2*rho/mu;
+hat_beta=beta*mu/(d^2*rho);
+LL=22.6;
+delta;
 % x_current=load('data/fit_params.txt')
 
 
@@ -62,4 +68,13 @@ delta
 % gamma_star= 2.3997e+04  #shear stress at which vwf unfolds
 % delta=   7.8866e-06
 % LL =       29.9996
+
+
+x2=load('data/fitted_parameters.txt');
+
+
+%  Extract params from minima
+p_cell=num2cell(x2); % all of the free parameters
+[alpha,beta,gamma_star,delta]=p_cell{:};
+
 

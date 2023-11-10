@@ -18,7 +18,6 @@ for i=1:length(sr_vec)
 DATA = [hatb,gamma_star,De,LL,delta,sr_vec(i)];
 options = optimset('Display','off');% so that fsolve doesnt print
 
-% f = @(y) fene_shear(y,DATA); 
 
 f = @(y) fene_elong(y,DATA,if_mod); 
 sol = fsolve(f, previous,options);
