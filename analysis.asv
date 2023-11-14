@@ -1,0 +1,108 @@
+% Analysis scripts for main paper parameter estimation
+
+
+% ------------------------------------------------------------------------
+
+% Section 1: fitting of VWF params to Lippok et al data, L=22.6 
+
+% minimise the distance of our model solution in shear flow to the Lippok
+% et al data.
+plot_display=0; % ensure no plots are displayed. 
+
+% [alpha,beta,gamma_star,delta,LL] % assign initial guess for dimensional
+% VWF params
+initial_guess=[];
+initial_guess(1)=0.01;
+initial_guess(2)=2/1271; % from Lippok et al.
+initial_guess(3)=5522; % from Lippok et al.
+initial_guess(4)=1e-6; % 
+LL=22.6;% from Schnieder et al. to obtain a maximum extension of 15, i.e. a max length of 16. 
+% calculated: 16*sqrt(2)
+
+lb=[1e-6,1e-8,1e4,1e-8]; % lower bound
+ub=[0.1,1e-3,7e4,1e-3]; % upper bound
+%
+x2 = fmincon(@(params)vwf_fit_li(params,LL),initial_guess,[],[],[],[],lb,ub);
+
+% save('data/fitted_parameters.txt','x2','-ascii')
+
+
+% -------------------------------------------------------------------------
+% Section 2: fitting of VWF params to Lippok et al with varying L. 
+
+% minimise the distance of our model solution in shear flow to the Lippok
+% et al data.
+
+% LL=22.6;% from Schnieder et al. to obtain a maximum extension of 15, i.e. a max length of 16. 
+% calculated: 16*sqrt(2)
+
+
+% bounds for parameter space search:
+lb=[1e-3,1e-8,4e3,1e-8]; % lower bound 
+ub=[0.1,1e-2,2e4,1e-3]; % upper bound
+
+
+x_current=load('data/fitted_parameters.txt'); % load in fitted parameters for L=22.6 
+x2=x_current; % duplicate these parameters so they can be used for continuation.
+
+ll=[5,10,15,50,75,100]; %values of L to fit for
+
+% for those higher than 22.6 continue from x_current by increasing L
+params_fitted_L=zeros(6,4);
+for i=3:6
+x2 = fmincon(@(params)vwf_fit_li(params,ll(i)),x2,[],[],[],[],lb,ub);
+params_fitted_L(i,:)=x2;
+vwf_fit_li(x2,1,ll(i))
+end
+
+% for those lower than 22.6 continue from x_current by decreasing L
+x2=x_current;
+for i=3:-1:1
+x2 = fmincon(@(params)vwf_fit_li(params,ll(i)),x2,[],[],[],[],lb,ub);
+params_fitted_L(i,:)=x2;
+vwf_fit_li(x2,1,ll(i))
+end
+
+% save("params_fitted_L") % save parameters - this will overwrite
+% parameters.
+
+
+% ----------------Calculation of Protein stress contribtion
+
+G1=0.027;
+G2=6.7e-4;
+
+%Peak WSR at RE=500
+gamma_max=18.8e4;
+
+% upstream WSR at Re=100
+gamma_min=  125.3761;
+
+% note WSR will be less in recirc!
+
+G1/(gamma_max*mu)
+G2/(gamma_max*mu)
+
+
+G1/(gamma_min*mu)
+G2/(gamma_min*mu)
+
+
+% function which calculates the error of model to Lippok data. 
+function error_sum=vwf_fit_li(params,LL)
+
+
+full_params=[params,LL];
+
+sr_vec=[logspace(0,5,400)]';
+lip=1./(1+exp(-(sr_vec-5522)/1271));
+
+[length_v,~]=vwf_extension_shear(full_params,sr_vec);
+rel_ext=(length_v-1)/max(length_v-1);%relative extension
+% rel_len=length_v/max(length_v);%relative extension
+% error=((rel_ext-lip));%./lip; % error at each point
+% error_sum=100*sum(abs(error),'all')./length(rel_ext) ;%percentage error
+
+end
+
+

@@ -20,8 +20,6 @@ set(groot,'DefaultLineLineWidth',1)
 
 %---------------Plot----------------------------
 
-close all#
-
 loc=4;% location of selected mesh 
 
 
