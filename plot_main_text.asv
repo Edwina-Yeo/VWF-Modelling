@@ -1,5 +1,5 @@
 %% This generates the all plots for main paper 
-% This script generates all the plots for the main paper.
+% This script generates all the plots for the main paper 
 
 close all
 %---------------Assign plotting macros----------------------------
@@ -17,6 +17,8 @@ warning('off')
 painters_on=0; % ensures high quality figures, uncomment for speed.
 
 parameters % import model parameters
+
+
 
 % --------------Figure 2: VWF model compared to data---------------------
 params=load('data/fitted_parameters.txt'); % load the fitted VWF params for L=22.6
@@ -468,7 +470,7 @@ exportgraphics(figure1,'figs/total_dynamics.eps','ContentType','vector')
 
 
 %------Figure 8: flow structure plot------------------------------------
-
+%%
 % this section, extracts the fluid solutions and plots the
 % difference between shear and rotation on a heat plot for two different
 % geometries.
@@ -541,7 +543,7 @@ title('(a) Shallow Stenosis, $l_2=5$')
 colormap(cmap_data.cmap)
 plot3([-10,10,10,-10,-10],[0,0,1,1,0],[100,100,100,100,100],'k','LineWidth',0.2)
 grid off
-legend('$(\dot{\gamma}-\dot{\omega})=0.1$')
+legend('$(\dot{\gamma}-\dot{\omega})>0.1$')
 
 ylim([0,1])
 xlabel('$z$');
@@ -572,12 +574,65 @@ grid off
 % exportgraphics(figure1,'data/class.eps','ContentType','vector')
 
 
+%%
+
+cmap_data = load('data/red_blue_cmap.mat');  %load into structure
+
+ set(0, 'DefaultFigureRenderer', 'opengl');
+scale=1.3;
+set(groot,'DefaultAxesFontSize',12*scale);
+
+figure1=figure('units','inch','position',[0,0,8*scale,3*scale]);
+t=tiledlayout(1,2);
+nexttile % ax_vel = axes;
+
+plot3(c5(1,end5(1):6:end5(2)),c5(2,end5(1):6:end5(2)),100*ones(size(c5(2,end5(1):6:end5(2)))),'k-.','LineWidth',0.2*scale); hold on
+lam=(abs(sr2)-abs(rot2));
+
+s=trisurf(DT2(IO2, :),fitted_params,y2,lam,'FaceColor','interp'); hold on
+s.EdgeColor='none';
+view(2)
+colorbar
+xlim([-10,10])
+title('(a) Shallow Stenosis, $l_2=5$')
+colormap(cmap_data.cmap)
+plot3([-10,10,10,-10,-10],[0,0,1,1,0],[100,100,100,100,100],'k','LineWidth',0.2)
+grid off
+legend('$(\dot{\gamma}-\dot{\omega})=0.2$')
+
+ylim([0,1])
+xlabel('$z$');
+ylabel('$r$','Interpreter','latex')
+
+nexttile 
+lam=(abs(sr2)-abs(rot2));
+plot3(c2(1,2:6:end),c2(2,2:6:end),100*ones(size(c2(1,2:6:end))),'k-.','LineWidth',0.2*scale); hold on
+s=trisurf(DT2(IO2, :),fitted_params,y2,real(sqrt(lam)).*abs(sr2/2)*gamma_scale*1e-3,'FaceColor','interp'); hold on
+s.EdgeColor='none';
+view(2)
+plot3([-10,10,10,-10,-10],[0,0,1,1,0],[100,100,100,100,100],'k','LineWidth',0.2)
+
+ caxis([-1.55,1.55]);
+ylim([0,1])
+xlim([-10,10])
+t.TileSpacing = 'compact';
+t.Padding = 'compact';title('(b) Steep Stenosis, $l_2=2$')
+a=colorbar('TickLabelInterpreter','latex');
+a.Label.String = '$\dot{\gamma}-\dot{\omega}$';
+a.Label.Interpreter = 'latex';
+a.Label.FontSize = 1*scale;
+box on
+box on
+xlabel('$z$');
+grid off
+% exportgraphics(figure1,'data/class.eps','ContentType','vector')
+
+
+
 
 % Find max SR and max E inside contour of elongation for values in text
 [in,~] = inpolygon(fitted_params,y2,c2(1,:),c2(2,:));
 
-
-"Printing out text values"
 max(sr2)
 sqrt(max(ze2(in)))/21*100
 sqrt(max(ze2))
@@ -587,6 +642,9 @@ sqrt(max(ze2))
 max(sr5)
 sqrt(max(ze5(in)))/21*100
 sqrt(max(ze5))/21*100
+
+
+
 
 
 function[xb,var_sort]=sort_v(x,var)

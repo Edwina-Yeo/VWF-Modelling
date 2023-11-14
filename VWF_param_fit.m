@@ -167,7 +167,6 @@ nexttile
     plot(sr_vec,length_v,'k'); hold on
     plot(sch(:,1),sch(:,2),'r.','MarkerSize',10)
 
-%              errorbar(exp_sr,(exp_ext),exp_vwf_err,'.','Color',  cmap(ceil(length(cmap)),:)); hold on
 lk=xline(5096);
 lk.LineStyle='-.';
 
@@ -176,13 +175,9 @@ ylim([0,17])
 
 legend('VWF model','Schneider et al.','$5,096s^{-1}$','Interpreter','latex','Location','northwest')
 
-
-% xlabel('Shear rate, ($s^{-1}$)')
-% title('(b)')
 title('(c) VWF length')
 
     set(gca,'XScale','log');
-% exportgraphics(figure1 ,append('figs/model_vwf_fit.png'),'Resolution',300) 
 xticks([1,10,10^2,10^3,10^4,10^5])
 xlabel(' Shear rate $\dot{\gamma}$ ($s^{-1}$)');
 
